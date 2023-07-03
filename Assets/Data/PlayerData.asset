@@ -13,5 +13,8 @@ MonoBehaviour:
   m_Name: PlayerData
   m_EditorClassIdentifier: 
   speed: 5
-  healh: 100
+  health: 100
+  max_health: 100
+  equippedWeapon: {fileID: 0}
   inventory: {fileID: 11400000, guid: 3ffd0b226a475e04ba3056fbabf01134, type: 2}
+  weaponPlace: {fileID: 0}

@@ -6,8 +6,11 @@ namespace RPG.Core
     public class Player : ScriptableObject {
         public float speed;
 
-        public float healh;
+        public float health;
+        public float max_health;
+        public GameObject equippedWeapon;
        [SerializeField] Inventory inventory;
+       [SerializeField] public GameObject weaponPlace;
 
     }
 
