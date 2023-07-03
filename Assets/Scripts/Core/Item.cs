@@ -14,7 +14,10 @@ namespace RPG.Core{
                     Debug.Log("Potion İçtin");
                     return true;
                 case ItemData.ItemType.Weapon:
-                    playerData.equippedWeapon = itemData.weaponPrefab;
+                    if (playerData.equippedWeapon != null){
+                        Destroy(playerData.equippedWeapon.gameObject);
+                    }
+                    playerData.equippedWeapon = itemData.itemPrefab;
                     Debug.Log("Silah taktın");
                     return true;
                 default: return false;
@@ -36,7 +39,7 @@ namespace RPG.Core{
         public Sprite UI_Sprite;
         public bool canStack = true;
         public int defaultInventoryIndex;
-        public GameObject weaponPrefab;
+        public GameObject itemPrefab;
         public ItemData(){
 
         }

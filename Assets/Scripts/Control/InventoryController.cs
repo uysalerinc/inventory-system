@@ -22,22 +22,26 @@ namespace RPG.Control
         }
         private void Update() {
             if (Input.GetKeyDown(KeyCode.E)){
-                UseSelectedItem(inventoryUI.selectedItem);
+                if (inventoryUI.selectedItem == null) return;
+                    UseSelectedItem(inventoryUI.selectedItem);
             }
         }
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Item")){
-                inventory.AddItem(other.GetComponent<Item>());
-                Destroy(other.gameObject);
+                inventory.AddItem(other.gameObject.GetComponent<Item>());
+                other.gameObject.SetActive(false);
             }
         }
         public void UseSelectedItem(Item selectedItem){
             if(selectedItem.UseItem(playerData)){
                 if (selectedItem.itemData.itemType == ItemData.ItemType.Weapon){
-                    GameObject weapon = Instantiate(selectedItem.itemData.weaponPrefab, playerData.weaponPlace.transform.position, Quaternion.identity);
+                    GameObject weapon = Instantiate(selectedItem.itemData.itemPrefab, playerData.weaponPlace.transform.position, Quaternion.identity);
                     weapon.transform.SetParent(playerData.weaponPlace.transform);
+                    playerData.equippedWeapon = weapon;
                 }
-                inventory.ConsumeItem(selectedItem);
+                if (inventory.ConsumeItem(selectedItem)){
+                    inventoryUI.selectedItem = null;
+                }
             }
         }
     }

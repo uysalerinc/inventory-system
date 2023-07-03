@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2578005471487381669}
   - component: {fileID: 2178447212836752524}
   m_Layer: 0
-  m_Name: ManaPotion
+  m_Name: ManaPotionWorldItem
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -105,6 +105,7 @@ MonoBehaviour:
     UI_Sprite: {fileID: 21300000, guid: 0c589a5c98030bd43a57d6ea57fe0093, type: 3}
     canStack: 1
     defaultInventoryIndex: 1
+    itemPrefab: {fileID: 8316525711012280282, guid: c5ef4ce2022019440bd51533e9acba26, type: 3}
   amount: 1
 --- !u!61 &2578005471487381669
 BoxCollider2D:
