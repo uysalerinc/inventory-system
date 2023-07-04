@@ -27,6 +27,10 @@ namespace RPG.Control{
         }
         private void Update(){
             Movement();
+            Attack();
+        }
+        private void OnTriggerEnter2D(Collider2D other) {
+            Debug.Log(other.name);
         }
 
         private void Movement(){
@@ -40,6 +44,13 @@ namespace RPG.Control{
         private void FixedUpdate() {
             mover.MoveTo(moveDirection, playerData.speed, rb);
         }
+        private void Attack(){
+            if (Input.GetKeyDown(KeyCode.Space) && playerData.equippedWeapon != null){
+                Debug.Log("miv");
+                playerData.equippedWeapon.GetComponent<Animator>().SetTrigger("swing");
+            }
+        }
+        
 
     }
 }

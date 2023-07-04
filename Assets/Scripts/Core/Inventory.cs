@@ -53,6 +53,10 @@ namespace RPG.Core{
                 itemList.Sort((a,b) => a.Item1.itemData.defaultInventoryIndex.CompareTo(b.Item1.itemData.defaultInventoryIndex));
                 return itemList;
             }
+            public void DestroyItemFromList(Item item){
+                itemList.Remove(SearhItemInInventoryByID(item.itemData.itemID));
+                OnItemListChanged?.Invoke(this, EventArgs.Empty);
+            }
             public void SetItems(){
                 itemList = new List<Tuple<Item, int>>();
                 }

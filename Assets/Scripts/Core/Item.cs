@@ -17,7 +17,7 @@ namespace RPG.Core{
                     if (playerData.equippedWeapon != null){
                         Destroy(playerData.equippedWeapon.gameObject);
                     }
-                    playerData.equippedWeapon = itemData.itemPrefab;
+                    playerData.equippedWeapon = itemData.weaponPrefab;
                     Debug.Log("Silah taktın");
                     return true;
                 default: return false;
@@ -39,7 +39,7 @@ namespace RPG.Core{
         public Sprite UI_Sprite;
         public bool canStack = true;
         public int defaultInventoryIndex;
-        public GameObject itemPrefab;
+        public GameObject weaponPrefab;
         public ItemData(){
 
         }
