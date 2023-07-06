@@ -6,6 +6,9 @@ namespace RPG.Core{
     public class Item : MonoBehaviour{
         public ItemData itemData = new ItemData();
         public int amount;
+        // private void Awake() {
+        //     DontDestroyOnLoad(gameObject);
+        // }
         public bool UseItem(Player playerData){
             switch (this.itemData.itemType)
             {
@@ -18,7 +21,6 @@ namespace RPG.Core{
                         Destroy(playerData.equippedWeapon.gameObject);
                     }
                     playerData.equippedWeapon = itemData.weaponPrefab;
-                    Debug.Log("Silah taktın");
                     return true;
                 default: return false;
 

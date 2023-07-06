@@ -18,7 +18,6 @@ namespace RPG.Control
                 inventory.AddItem(starterItem);
             }
             inventoryUI.SetInventory(inventory);
-            
         }
         private void Update()
         {

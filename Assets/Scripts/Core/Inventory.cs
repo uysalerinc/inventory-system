@@ -41,7 +41,7 @@ namespace RPG.Core{
                 return isRemoved;
 
             }
-            private Tuple<Item, int> SearhItemInInventoryByID(int itemid){
+            public Tuple<Item, int> SearhItemInInventoryByID(int itemid){
                 foreach (Tuple<Item, int> inventoryItem in itemList){
                     if (inventoryItem.Item1.itemData.itemID == itemid){
                         return inventoryItem;
@@ -60,5 +60,6 @@ namespace RPG.Core{
             public void SetItems(){
                 itemList = new List<Tuple<Item, int>>();
                 }
+            
             }
     }

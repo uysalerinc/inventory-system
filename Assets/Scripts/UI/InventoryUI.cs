@@ -13,6 +13,9 @@ namespace RPG.UI{
         [SerializeField] private GameObject buttonPrefab;
         public Item selectedItem;
         [SerializeField] Player playerData;
+        private void Awake() {
+            DontDestroyOnLoad(transform.parent.transform.parent);
+        }
 
         public void SetInventory(Inventory inventory){
             this.inventory = inventory;
@@ -65,7 +68,7 @@ namespace RPG.UI{
             button.GetComponent<Button>().onClick.AddListener(() => SelectItem(item));
         }
         public void SelectItem(Tuple<Item,int> item){
-            selectedItem = item.Item1;
+            selectedItem = inventory.SearhItemInInventoryByID(item.Item1.itemData.itemID).Item1;
             Debug.Log(selectedItem);
             Debug.Log(selectedItem.itemData.itemType);
         }

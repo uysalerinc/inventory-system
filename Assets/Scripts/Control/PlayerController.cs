@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using RPG.Core;
 using RPG.Movement;
 using RPG.UI;
@@ -24,6 +25,10 @@ namespace RPG.Control{
             mover = GetComponent<Mover>();
             animator = GetComponent<Animator>();
             inventoryController.playerData = playerData;
+            DontDestroyOnLoad(gameObject);
+        }
+        private void OnEnable() {
+            SceneManager.sceneLoaded += OnSceneLoad;
         }
         private void Update(){
             Movement();
@@ -49,6 +54,10 @@ namespace RPG.Control{
                 Debug.Log("miv");
                 playerData.equippedWeapon.GetComponent<Animator>().SetTrigger("swing");
             }
+        }
+        private void OnSceneLoad(Scene scene, LoadSceneMode mod){
+            Debug.Log("sahne değişim denemesi");
+
         }
         
 
