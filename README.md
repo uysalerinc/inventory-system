@@ -15,6 +15,6 @@ A sample scene for inventory system.
 * UI Items:                            https://elv-games.itch.io/free-inventory-asset-pack
 * Pixel Art Font : https://pleeze.itch.io/slimesfonts
 
-You play the game here: https://erincuysal.itch.io/inventory-system-sample
-Also you can watch the preview video: https://youtu.be/0tn-4D3rS8U
+- You play the game here: https://erincuysal.itch.io/inventory-system-sample
+- Also you can watch the preview video: https://youtu.be/0tn-4D3rS8U
 
