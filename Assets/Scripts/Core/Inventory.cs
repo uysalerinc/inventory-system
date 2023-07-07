@@ -1,5 +1,4 @@
 using System;
-
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,27 +6,27 @@ namespace RPG.Core{
     [CreateAssetMenu(fileName = "Inventory", menuName = "RPG-Sample/Inventory", order = 0)]
     public class Inventory : ScriptableObject {
         public event EventHandler OnItemListChanged;
-        private List<Tuple<Item, int>> itemList = new List<Tuple<Item, int>>();
+        private List<Tuple<ItemData, int>> itemList = new List<Tuple<ItemData, int>>();
+        // Adding item to the list.
         public void AddItem(Item item){
-            Tuple<Item, int> newItem = Tuple.Create(item, item.amount);
-            Tuple<Item, int> inventoryItem =SearhItemInInventoryByID(item.itemData.itemID);
+            Tuple<ItemData, int> newItem = Tuple.Create(item.itemData, item.amount);
+            Tuple<ItemData, int> inventoryItem =SearhItemInInventoryByID(item.itemData.itemID);
 
             if (item.itemData.canStack && inventoryItem != null){
                     int oldAmount = inventoryItem.Item2;
                     itemList.Remove(inventoryItem);
-                    itemList.Add(Tuple.Create(item, (item.amount+ oldAmount)));
+                    itemList.Add(Tuple.Create(item.itemData, (item.amount+ oldAmount)));
                     Debug.Log(SearhItemInInventoryByID(item.itemData.itemID));
                 } else {
-                    // itemList.Add(Tuple.Create(item, item.amount));
                     itemList.Add(newItem);
                     Debug.Log(newItem.Item1);
-                    // Debug.Log(SearhItemInInventoryByID(item.itemData.itemID));
                 }
                 OnItemListChanged?.Invoke(this, EventArgs.Empty);
             }
-            public bool ConsumeItem(Item item){
+            // Decrease amount by 1 when using an item
+            public bool ConsumeItem(ItemData item){
                 bool isRemoved;
-                Tuple<Item, int> inventoryItem =SearhItemInInventoryByID(item.itemData.itemID);
+                Tuple<ItemData, int> inventoryItem =SearhItemInInventoryByID(item.itemID);
                 if (inventoryItem.Item2 == 1){
                     itemList.Remove(inventoryItem);
                     isRemoved = true;
@@ -41,25 +40,28 @@ namespace RPG.Core{
                 return isRemoved;
 
             }
-            public Tuple<Item, int> SearhItemInInventoryByID(int itemid){
-                foreach (Tuple<Item, int> inventoryItem in itemList){
-                    if (inventoryItem.Item1.itemData.itemID == itemid){
+            //Basic search for an item with itemid
+            public Tuple<ItemData, int> SearhItemInInventoryByID(int itemid){
+                foreach (Tuple<ItemData, int> inventoryItem in itemList){
+                    if (inventoryItem.Item1.itemID == itemid){
                         return inventoryItem;
                     }
                 }
                 return null;
             }
-            public List<Tuple<Item, int>> GetItems(){
-                itemList.Sort((a,b) => a.Item1.itemData.defaultInventoryIndex.CompareTo(b.Item1.itemData.defaultInventoryIndex));
+            // Sorting Items For UI
+            public List<Tuple<ItemData, int>> GetItems(){
+                itemList.Sort((a,b) => a.Item1.defaultInventoryIndex.CompareTo(b.Item1.defaultInventoryIndex));
                 return itemList;
             }
-            public void DestroyItemFromList(Item item){
-                itemList.Remove(SearhItemInInventoryByID(item.itemData.itemID));
+            // Completely Destroy an item from inventory
+            public void DestroyItemFromList(ItemData item){
+                itemList.Remove(SearhItemInInventoryByID(item.itemID));
                 OnItemListChanged?.Invoke(this, EventArgs.Empty);
             }
+            // Reset inventory
             public void SetItems(){
-                itemList = new List<Tuple<Item, int>>();
-                }
-            
+                itemList = new List<Tuple<ItemData, int>>();
             }
+        }
     }

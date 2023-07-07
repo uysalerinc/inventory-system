@@ -6,25 +6,11 @@ namespace RPG.Core{
     public class Item : MonoBehaviour{
         public ItemData itemData = new ItemData();
         public int amount;
-        // private void Awake() {
-        //     DontDestroyOnLoad(gameObject);
-        // }
-        public bool UseItem(Player playerData){
-            switch (this.itemData.itemType)
-            {
-                case ItemData.ItemType.HpPotion:
-                    playerData.health = (MathF.Min(playerData.max_health , playerData.health+20));
-                    Debug.Log("Potion İçtin");
-                    return true;
-                case ItemData.ItemType.Weapon:
-                    if (playerData.equippedWeapon != null){
-                        Destroy(playerData.equippedWeapon.gameObject);
-                    }
-                    playerData.equippedWeapon = itemData.weaponPrefab;
-                    return true;
-                default: return false;
-
+        public static GameObject EquipWeapon(GameObject weaponPrefab, GameObject equippedWeapon){
+            if (equippedWeapon != null){
+                Destroy(equippedWeapon);
             }
+            return weaponPrefab;
         }
     }
 
@@ -37,13 +23,26 @@ namespace RPG.Core{
             ManaPotion
         }
         public ItemType itemType;
-        public int itemID;
-        public Sprite UI_Sprite;
+        public int itemID; // For Searcing items
+        public Sprite UI_Sprite; // For ui
         public bool canStack = true;
-        public int defaultInventoryIndex;
+        public int defaultInventoryIndex; // For UI sorting
         public GameObject weaponPrefab;
         public ItemData(){
-
+        }
+        
+        public bool UseItem(Player playerData){
+            switch (itemType)
+            {
+                case ItemData.ItemType.HpPotion:
+                    playerData.health = (MathF.Min(playerData.max_health , playerData.health+20));
+                    Debug.Log("Potion İçtin");
+                    return true;
+                case ItemData.ItemType.Weapon:
+                    playerData.equippedWeapon = Item.EquipWeapon(weaponPrefab, playerData.equippedWeapon);
+                    return true;
+                default: return false;
+            }
         }
     }
 

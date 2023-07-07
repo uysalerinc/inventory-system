@@ -1,8 +1,6 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using RPG.Core;
 using RPG.Movement;
-using RPG.UI;
 
 namespace RPG.Control{
 
@@ -19,25 +17,23 @@ namespace RPG.Control{
         Vector2 moveDirection;
         #endregion
         private void Awake() {
+            // Declare components
             playerData.weaponPlace = weaponPlace;
+            playerData.equippedWeapon = null;
             inventoryController = GetComponent<InventoryController>();
             rb = GetComponent<Rigidbody2D>();
             mover = GetComponent<Mover>();
             animator = GetComponent<Animator>();
             inventoryController.playerData = playerData;
+            // For scene load
             DontDestroyOnLoad(gameObject);
         }
-        private void OnEnable() {
-            SceneManager.sceneLoaded += OnSceneLoad;
-        }
+
         private void Update(){
             Movement();
             Attack();
         }
-        private void OnTriggerEnter2D(Collider2D other) {
-            Debug.Log(other.name);
-        }
-
+        // Get axis from input
         private void Movement(){
             moveDirection = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
             animator.SetBool("isRunning", moveDirection.magnitude != 0);
@@ -47,19 +43,18 @@ namespace RPG.Control{
         }
 
         private void FixedUpdate() {
-            mover.MoveTo(moveDirection, playerData.speed, rb);
+            mover.MoveTo(moveDirection, playerData.speed, rb); // Move to given direction
         }
+        // Just swing weapon on hand
         private void Attack(){
             if (Input.GetKeyDown(KeyCode.Space) && playerData.equippedWeapon != null){
-                Debug.Log("miv");
                 playerData.equippedWeapon.GetComponent<Animator>().SetTrigger("swing");
             }
         }
-        private void OnSceneLoad(Scene scene, LoadSceneMode mod){
-            Debug.Log("sahne değişim denemesi");
-
+        private void OnTriggerEnter2D(Collider2D other) {
+            if (other.CompareTag("Enemy")){
+                other.GetComponent<EnemyController>().TakaDamage(20);
+            }
         }
-        
-
     }
 }

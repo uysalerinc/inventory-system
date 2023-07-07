@@ -1,29 +1,26 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine;
-using RPG.Core;
 
 namespace RPG.SceneManagemetn{
     public class Portal : MonoBehaviour{
         enum PortalIdentifier{
-            A,B,C
+            A,B,C // If i want to use multiple portals
         }
         [SerializeField] PortalIdentifier portalIdentifier;
         [SerializeField] int sceneToLoad;
         [SerializeField] Transform spawnPoint;
-        GameObject inventoryUI;
-        GameObject player;
+        GameObject player; // I need this to carry player to spawn point
 
         private void OnTriggerEnter2D(Collider2D other) {
             if (other.CompareTag("Player")){
                 player = other.gameObject;
-                inventoryUI = GameObject.FindWithTag("UI");
                 StartCoroutine(Transfer());
             }
         }
 
         private IEnumerator Transfer(){
-            CarryToNextScene();
+            DontDestroyOnLoad(gameObject); // Wait for end of coroutine
             yield return SceneManager.LoadSceneAsync(sceneToLoad);
             Portal otherPortal = GetOtherPortal();
             TransferPlayer(otherPortal);
@@ -37,19 +34,11 @@ namespace RPG.SceneManagemetn{
             
         private Portal GetOtherPortal(){
             foreach (Portal portal in FindObjectsOfType<Portal>()){
-                if (portal == this) continue;
-                if (portal.portalIdentifier != portalIdentifier) continue;
-
-                Debug.Log("buldu");
+                if (portal == this || portal.portalIdentifier != portalIdentifier) continue;
+                // if (portal.portalIdentifier != portalIdentifier) continue;
                 return portal;
             }
-
-            Debug.Log("PortalıBulamadıMal");
             return null;
         }
-        private void CarryToNextScene(){
-            DontDestroyOnLoad(gameObject);
-        }
     }
-
 }
